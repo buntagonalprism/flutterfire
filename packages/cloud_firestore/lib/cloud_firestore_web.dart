@@ -70,10 +70,7 @@ class CloudFirestorePlugin {
     return <dynamic, dynamic> {
       'path': snapshot.ref.path,
       'data': snapshot.data(),
-      'metadata': <dynamic, dynamic>{
-        'hasPendingWrites': snapshot.metadata.hasPendingWrites,
-        'isFromCache': snapshot.metadata.fromCache,
-      }
+      'metadata': _mapMetadata(snapshot.metadata),
     };
   }
 
@@ -121,7 +118,35 @@ class CloudFirestorePlugin {
   }
 
   Map<dynamic, dynamic> _mapQuerySnapshot(web_fs.QuerySnapshot snapshot) {
-    throw "Not implemented";
+    final List<Map<dynamic, dynamic>> docs = snapshot.docs.map((web_fs.DocumentSnapshot doc) => doc.data()).toList();
+    final List<String> paths = snapshot.docs.map((web_fs.DocumentSnapshot doc) => doc.ref.path).toList();
+    final List<Map<dynamic, dynamic>> metadatas = snapshot.docs.map((web_fs.DocumentSnapshot doc) => _mapMetadata(doc.metadata)).toList();
+    final List<Map<dynamic, dynamic>> changes = snapshot.docChanges().map((web_fs.DocumentChange change) => _mapDocumentChange(change)).toList();
+    return <dynamic, dynamic> {
+      'documents': docs,
+      'paths': paths,
+      'metadatas': metadatas,
+      'documentChanges': changes,
+      'metadata': _mapMetadata(snapshot.metadata),
+    };
+  }
+
+  Map<dynamic, dynamic> _mapMetadata(web_fs.SnapshotMetadata metadata) {
+    return <dynamic, dynamic> {
+      'hasPendingWrites': metadata.hasPendingWrites,
+      'isFromCache': metadata.fromCache,
+    };
+  }
+
+  Map<dynamic, dynamic> _mapDocumentChange(web_fs.DocumentChange change) {
+    return <dynamic, dynamic>{
+      'oldIndex': change.oldIndex,
+      'newIndex': change.newIndex,
+      'type': change.type,
+      'path': change.doc.ref.path,
+      'document': change.doc.data(),
+      'metadata': _mapMetadata(change.doc.metadata),
+    };
   }
 
   Future<Map<dynamic, dynamic>> _getQueryDocuments(MethodCall call) async {

@@ -37,9 +37,9 @@ class FirebaseAuthPlugin {
         case "signInWithCredential":
           return _signInWithCredential(call.arguments["app"], call.arguments["provider"], call.arguments["data"]);
         case "currentUser":
-          return _currentUser(call.arguments("app"));
+          return _currentUser(call.arguments["app"]);
         case "signOut":
-          return _signOut(call.arguments("app"));
+          return _signOut(call.arguments["app"]);
         default:
           throw PlatformException(
               code: 'Unimplemented',

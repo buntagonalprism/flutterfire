@@ -56,18 +56,21 @@ class FirebaseCorePlugin {
   }
 
   Map<dynamic, dynamic> _getAppNamed(String name) {
-    final web_fb.App app = web_fb.app(name);
-
-    return <dynamic, dynamic> {
-      'name': app.name,
-      'options': <dynamic, dynamic> {
-        'apiKey': app.options.apiKey,
-        'databaseURL': app.options.databaseURL,
-        'projectID': app.options.projectId,
-        'storageBucket': app.options.storageBucket,
-        'gcmSenderID': app.options.messagingSenderId,
-      }
-    };
+    try {
+      final web_fb.App app = web_fb.app(name);
+      return <dynamic, dynamic> {
+        'name': app.name,
+        'options': <dynamic, dynamic> {
+          'apiKey': app.options.apiKey,
+          'databaseURL': app.options.databaseURL,
+          'projectID': app.options.projectId,
+          'storageBucket': app.options.storageBucket,
+          'gcmSenderID': app.options.messagingSenderId,
+        }
+      };
+    } catch (e) {
+      return null;
+    }   
   }
 
   List<Map<dynamic, dynamic>> _allApps() {

@@ -21,7 +21,7 @@ class FirebaseCorePlugin {
         case "FirebaseApp#configure":
           return _configureApp(call.arguments['name'], call.arguments['options']);
         case "FirebaseApp#appNamed":
-          return Future<dynamic>.value(_getAppNamed(call.arguments['name']));
+          return Future<dynamic>.value(_getAppNamed(call.arguments));
         case "FirebaseApp#allApps":
           return Future<dynamic>.value(_allApps());
         default:

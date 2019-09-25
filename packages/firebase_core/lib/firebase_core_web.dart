@@ -40,7 +40,7 @@ class FirebaseCorePlugin {
     }
   }
 
-  Future<void> _configureApp(String name, Map<String, String> options) {
+  Future<void> _configureApp(String name, Map<dynamic, dynamic> options) {
 
     web_fb.initializeApp(
       name: name,

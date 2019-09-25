@@ -40,6 +40,8 @@ class FirebaseAuthPlugin {
           return _currentUser(call.arguments["app"]);
         case "signOut":
           return _signOut(call.arguments["app"]);
+        case "getIdToken":
+          return _getIdToken(call.arguments["app"], call.arguments["refresh"]);
         default:
           throw PlatformException(
               code: 'Unimplemented',
@@ -137,5 +139,13 @@ class FirebaseAuthPlugin {
   Future<dynamic> _signOut(String appName) {
     final web_fb.Auth auth = _getAuthForApp(appName);
     return auth.signOut();
+  }
+
+  Future<Map<dynamic, dynamic>> _getIdToken(String appName, bool refresh) async {
+    final web_fb.Auth auth = _getAuthForApp(appName);
+    final String token = await auth.currentUser.getIdToken(refresh ?? false);
+    return <dynamic, dynamic> {
+      "token": token,
+    };
   }
 }

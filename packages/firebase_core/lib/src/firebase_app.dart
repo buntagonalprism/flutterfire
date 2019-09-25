@@ -11,8 +11,9 @@ class FirebaseApp {
   /// The name of this app.
   final String name;
 
-  static final String defaultAppName =
-      Platform.isIOS ? '__FIRAPP_DEFAULT' : '[DEFAULT]';
+  // TODO(buntagonalprism): Need a web-supported way of accessing the default app
+  // static final String defaultAppName =
+  //     Platform.isIOS ? '__FIRAPP_DEFAULT' : '[DEFAULT]';
 
   @visibleForTesting
   static const MethodChannel channel = MethodChannel(
@@ -48,7 +49,7 @@ class FirebaseApp {
   }
 
   /// Returns the default (first initialized) instance of the FirebaseApp.
-  static final FirebaseApp instance = FirebaseApp(name: defaultAppName);
+  // static final FirebaseApp instance = FirebaseApp(name: defaultAppName);
 
   /// Configures an app with the given [name] and [options].
   ///
@@ -62,7 +63,7 @@ class FirebaseApp {
     @required FirebaseOptions options,
   }) async {
     assert(name != null);
-    assert(name != defaultAppName);
+    // assert(name != defaultAppName);
     assert(options != null);
     assert(options.googleAppID != null);
     final FirebaseApp existingApp = await FirebaseApp.appNamed(name);

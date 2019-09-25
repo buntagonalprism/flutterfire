@@ -16,7 +16,7 @@ class CloudFirestorePlugin {
 
   static void registerWith(Registrar registrar) {
     _channel = MethodChannel(
-      'plugins.flutter.io/firebase_auth',
+      'plugins.flutter.io/cloud_firestore',
       const StandardMethodCodec(),
       registrar.messenger,
     );

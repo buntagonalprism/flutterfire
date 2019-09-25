@@ -44,12 +44,12 @@ class FirebaseCorePlugin {
 
     web_fb.initializeApp(
       name: name,
-      apiKey: options['apiKey'],
+      apiKey: options['APIKey'],
       authDomain: options['projectID'] + ".firebaseapp.com",
       databaseURL: options['databaseURL'],
       projectId: options['projectID'],
       storageBucket: options['storageBucket'],
-      messagingSenderId: options['gcmSenderID'],
+      messagingSenderId: options['GCMSenderID'],
     );
 
     return Future<void>.value();
@@ -61,11 +61,11 @@ class FirebaseCorePlugin {
       return <dynamic, dynamic> {
         'name': app.name,
         'options': <dynamic, dynamic> {
-          'apiKey': app.options.apiKey,
+          'APIKey': app.options.apiKey,
           'databaseURL': app.options.databaseURL,
           'projectID': app.options.projectId,
           'storageBucket': app.options.storageBucket,
-          'gcmSenderID': app.options.messagingSenderId,
+          'GCMSenderID': app.options.messagingSenderId,
         }
       };
     } catch (e) {

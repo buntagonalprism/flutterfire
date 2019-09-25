@@ -7,14 +7,23 @@ version: 0.4.0+9
 
 flutter:
   plugin:
-    androidPackage: io.flutter.plugins.firebase.core
-    iosPrefix: FLT
-    pluginClass: FirebaseCorePlugin
+    platforms:
+      android:
+        package: io.flutter.plugins.firebase.core
+        pluginClass: FirebaseCorePlugin
+      ios:
+        pluginClass: FLTFirebaseCorePlugin
+      web:
+        pluginClass: FirebaseCorePlugin
+        fileName: firebase_core_web.dart
 
 dependencies:
   flutter:
     sdk: flutter
   meta: "^1.0.5"
+  firebase: ^5.0.4
+  flutter_web_plugins:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:

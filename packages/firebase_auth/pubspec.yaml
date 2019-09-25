@@ -8,15 +8,24 @@ version: 0.14.0+5
 
 flutter:
   plugin:
-    androidPackage: io.flutter.plugins.firebaseauth
-    iosPrefix: FLT
-    pluginClass: FirebaseAuthPlugin
+    platforms:
+      android:
+        package: io.flutter.plugins.firebaseauth
+        pluginClass: FirebaseAuthPlugin
+      ios:
+        pluginClass: FLTFirebaseAuthPlugin
+      web:
+        pluginClass: FirebaseAuthPlugin
+        fileName: firebase_auth_web.dart
+
 
 dependencies:
   meta: ^1.0.4
   firebase_core: ^0.4.0
-
   flutter:
+    sdk: flutter
+  firebase: ^5.0.4
+  flutter_web_plugins:
     sdk: flutter
 
 dev_dependencies:

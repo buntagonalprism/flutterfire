@@ -38,6 +38,8 @@ class FirebaseAuthPlugin {
           return _signInWithCredential(call.arguments["app"], call.arguments["provider"], call.arguments["data"]);
         case "currentUser":
           return _currentUser(call.arguments("app"));
+        case "signOut":
+          return _signOut(call.arguments("app"));
         default:
           throw PlatformException(
               code: 'Unimplemented',
@@ -130,5 +132,10 @@ class FirebaseAuthPlugin {
     } else {
       return null;
     }
+  }
+
+  Future<dynamic> _signOut(String appName) {
+    final web_fb.Auth auth = _getAuthForApp(appName);
+    return auth.signOut();
   }
 }

@@ -8,7 +8,7 @@ part of cloud_firestore;
 ///
 /// You can get an instance by calling [Firestore.instance].
 class Firestore {
-  Firestore({FirebaseApp app}) : app = app ?? FirebaseApp.instance {
+  Firestore({@required this.app})  {
     if (_initialized) return;
     channel.setMethodCallHandler((MethodCall call) async {
       if (call.method == 'QuerySnapshot') {
@@ -36,7 +36,7 @@ class Firestore {
   }
 
   /// Gets the instance of Firestore for the default Firebase app.
-  static final Firestore instance = Firestore();
+  // static final Firestore instance = Firestore();
 
   /// The [FirebaseApp] instance to which this [FirebaseDatabase] belongs.
   ///

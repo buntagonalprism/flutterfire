@@ -7,16 +7,29 @@ version: 0.12.9+4
 
 flutter:
   plugin:
-    androidPackage: io.flutter.plugins.firebase.cloudfirestore
-    iosPrefix: FLT
-    pluginClass: CloudFirestorePlugin
+    platforms:
+      android:
+        package: io.flutter.plugins.firebase.cloudfirestore
+        pluginClass: CloudFirestorePlugin
+      ios:
+        pluginClass: FLTCloudFirestorePlugin
+      web:
+        pluginClass: CloudFirestorePlugin
+        fileName: cloud_firestore_web.dart
 
 dependencies:
   flutter:
     sdk: flutter
   meta: "^1.0.5"
   collection: "^1.14.3"
-  firebase_core: "^0.4.0"
+  firebase_core:
+    git: 
+      url: https://github.com/buntagonalprism/flutterfire.git
+      ref: web-support
+      path: packages/firebase_core
+  firebase: ^5.0.4
+  flutter_web_plugins:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:

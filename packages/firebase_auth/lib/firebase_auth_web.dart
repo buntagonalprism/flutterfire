@@ -143,9 +143,13 @@ class FirebaseAuthPlugin {
 
   Future<Map<dynamic, dynamic>> _getIdToken(String appName, bool refresh) async {
     final web_fb.Auth auth = _getAuthForApp(appName);
-    final String token = await auth.currentUser.getIdToken(refresh ?? false);
-    return <dynamic, dynamic> {
-      "token": token,
-    };
+    if (auth.currentUser != null) {
+      final String token = await auth.currentUser.getIdToken(refresh ?? false);
+      return <dynamic, dynamic> {
+        "token": token,
+      };
+    } else {
+      return null;
+    }
   }
 }

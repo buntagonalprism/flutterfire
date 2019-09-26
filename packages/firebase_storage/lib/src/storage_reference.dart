@@ -47,21 +47,27 @@ class StorageReference {
     return _firebaseStorage;
   }
 
-  /// This method is deprecated. Please use [putFile] instead.
-  ///
-  /// Asynchronously uploads a file to the currently specified
-  /// [StorageReference], with an optional [metadata].
-  @deprecated
-  StorageUploadTask put(File file, [StorageMetadata metadata]) {
-    return putFile(file, metadata);
-  }
+  // /// This method is deprecated. Please use [putFile] instead.
+  // ///
+  // /// Asynchronously uploads a file to the currently specified
+  // /// [StorageReference], with an optional [metadata].
+  // @deprecated
+  // StorageUploadTask put(File file, [StorageMetadata metadata]) {
+  //   return putFile(file, metadata);
+  // }
 
-  /// Asynchronously uploads a file to the currently specified
-  /// [StorageReference], with an optional [metadata].
-  StorageUploadTask putFile(File file, [StorageMetadata metadata]) {
-    assert(file.existsSync());
-    final _StorageFileUploadTask task =
-        _StorageFileUploadTask._(file, _firebaseStorage, this, metadata);
+  // /// Asynchronously uploads a file to the currently specified
+  // /// [StorageReference], with an optional [metadata].
+  // StorageUploadTask putFile(File file, [StorageMetadata metadata]) {
+  //   assert(file.existsSync());
+  //   final _StorageFileUploadTask task =
+  //       _StorageFileUploadTask._(file, _firebaseStorage, this, metadata);
+  //   task._start();
+  //   return task;
+  // }
+
+  StorageUploadTask putFileReference(LocalFileReference reference, [StorageMetadata metadata]) {
+    final StorageUploadTask task = _StorageFileReferenceUploadTask._(reference, _firebaseStorage, this, metadata);
     task._start();
     return task;
   }
@@ -126,14 +132,14 @@ class StorageReference {
     );
   }
 
-  /// Asynchronously downloads the object at this [StorageReference] to a
-  /// specified system file.
-  StorageFileDownloadTask writeToFile(File file) {
-    final StorageFileDownloadTask task = StorageFileDownloadTask._(
-        _firebaseStorage, _pathComponents.join("/"), file);
-    task._start();
-    return task;
-  }
+  // /// Asynchronously downloads the object at this [StorageReference] to a
+  // /// specified system file.
+  // StorageFileDownloadTask writeToFile(File file) {
+  //   final StorageFileDownloadTask task = StorageFileDownloadTask._(
+  //       _firebaseStorage, _pathComponents.join("/"), file);
+  //   task._start();
+  //   return task;
+  // }
 
   /// Asynchronously retrieves a long lived download URL with a revokable token.
   /// This can be used to share the file with others, but can be revoked by a

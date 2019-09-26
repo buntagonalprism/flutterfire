@@ -118,27 +118,48 @@ abstract class StorageUploadTask {
       );
 }
 
-class _StorageFileUploadTask extends StorageUploadTask {
-  _StorageFileUploadTask._(this._file, FirebaseStorage firebaseStorage,
-      StorageReference ref, StorageMetadata metadata)
-      : super._(firebaseStorage, ref, metadata);
+// class _StorageFileUploadTask extends StorageUploadTask {
+//   _StorageFileUploadTask._(this._file, FirebaseStorage firebaseStorage,
+//       StorageReference ref, StorageMetadata metadata)
+//       : super._(firebaseStorage, ref, metadata);
 
-  final File _file;
+//   final File _file;
+
+//   @override
+//   Future<dynamic> _platformStart() {
+//     return FirebaseStorage.channel.invokeMethod<dynamic>(
+//       'StorageReference#putFile',
+//       <String, dynamic>{
+//         'app': _firebaseStorage.app?.name,
+//         'bucket': _firebaseStorage.storageBucket,
+//         'filename': _file.absolute.path,
+//         'path': _ref.path,
+//         'metadata':
+//             _metadata == null ? null : _buildMetadataUploadMap(_metadata),
+//       },
+//     );
+//   }
+// }
+
+class _StorageFileReferenceUploadTask extends StorageUploadTask {
+  _StorageFileReferenceUploadTask._(this._reference, FirebaseStorage storage, StorageReference ref, StorageMetadata metadata): super._(storage, ref, metadata);
 
   @override
   Future<dynamic> _platformStart() {
     return FirebaseStorage.channel.invokeMethod<dynamic>(
-      'StorageReference#putFile',
+      'StorageReference#putFileReference',
       <String, dynamic>{
         'app': _firebaseStorage.app?.name,
         'bucket': _firebaseStorage.storageBucket,
-        'filename': _file.absolute.path,
+        'filename': _reference.path,
         'path': _ref.path,
         'metadata':
             _metadata == null ? null : _buildMetadataUploadMap(_metadata),
       },
     );
   }
+
+  final LocalFileReference _reference;
 }
 
 class _StorageDataUploadTask extends StorageUploadTask {

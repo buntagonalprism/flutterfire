@@ -7,14 +7,28 @@ version: 3.0.6
 
 flutter:
   plugin:
-    androidPackage: io.flutter.plugins.firebase.storage
-    iosPrefix: FLT
-    pluginClass: FirebaseStoragePlugin
+    platforms:
+      android:
+        package: io.flutter.plugins.firebase.storage
+        pluginClass: FirebaseStoragePlugin
+      ios:
+        pluginClass: FLTFirebaseStoragePlugin
+      web:
+        pluginClass: FirebaseStoragePlugin
+        fileName: firebase_storage_web.dart
 
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^0.4.0
+  flutter_web_plugins:
+    sdk: flutter
+  firebase_core:
+    git: 
+      url: https://github.com/buntagonalprism/flutterfire.git
+      ref: web-support
+      path: packages/firebase_core
+  local_file_reference:
+    git: https://github.com/buntagonalprism/local_file_reference.git
 
 dev_dependencies:
   http: ^0.12.0

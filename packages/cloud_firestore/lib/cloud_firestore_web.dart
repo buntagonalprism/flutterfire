@@ -81,7 +81,9 @@ class CloudFirestorePlugin {
     final String path = call.arguments['path'];
 
     _subscriptions[thisHandle] = fs.doc(path).onSnapshot.listen((web_fs.DocumentSnapshot snapshot) {
-      _channel.invokeMethod<dynamic>("DocumentSnapshot", _mapDocumentSnapshot(snapshot));
+      final Map<dynamic, dynamic> result = _mapDocumentSnapshot(snapshot);
+      result['handle'] = thisHandle;
+      _channel.invokeMethod<dynamic>("DocumentSnapshot", result);
     });
 
     return Future<int>.value(thisHandle);
@@ -98,7 +100,9 @@ class CloudFirestorePlugin {
     final web_fs.Query<dynamic> query = _getQuery(call);
     final int thisHandle = _handleCounter++;
     _subscriptions[thisHandle] = query.onSnapshot.listen((web_fs.QuerySnapshot snapshot) {
-      _channel.invokeMethod<dynamic>("DocumentSnapshot", _mapQuerySnapshot(snapshot));
+      final Map<dynamic, dynamic> result = _mapQuerySnapshot(snapshot);
+      result['handle'] = thisHandle;
+      _channel.invokeMethod<dynamic>("DocumentSnapshot", result);
     });
 
     return Future<int>.value(thisHandle);

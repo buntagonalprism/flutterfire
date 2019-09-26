@@ -109,10 +109,15 @@ class CloudFirestorePlugin {
     final web_fs.Firestore fs = _getFirestoreForApp(appName);
     final String path = call.arguments['path'];
     final Map<dynamic, dynamic> parameters = call.arguments['parameters'];
-    final List<List<dynamic>> conditions = parameters['where'];
+    final List<dynamic> conditions = parameters['where'];
     web_fs.Query<dynamic> query = fs.collection(path);
     for (List<dynamic> condition in conditions) {
       query = query.where(condition[0], condition[1], condition[2]);
+    }
+    final List<dynamic> orderBy = parameters['orderBy'];
+    for (List<dynamic> orderField in orderBy) {
+      final bool isDescending = orderField[1];
+      query = query.orderBy(orderField[0], isDescending ? 'desc' : 'asc');
     }
     return query;
   }

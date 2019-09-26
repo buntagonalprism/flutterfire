@@ -151,7 +151,7 @@ class CloudFirestorePlugin {
     return <dynamic, dynamic>{
       'oldIndex': change.oldIndex,
       'newIndex': change.newIndex,
-      'type': change.type,
+      'type': 'DocumentChangeType.${change.type}',
       'path': change.doc.ref.path,
       'document': change.doc.data(),
       'metadata': _mapMetadata(change.doc.metadata),

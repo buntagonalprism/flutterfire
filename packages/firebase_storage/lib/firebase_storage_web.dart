@@ -9,7 +9,7 @@ import 'package:local_file_reference/local_file_reference_web.dart';
 import 'firebase_app_js_interop.dart' as fa;
 import 'firebase_storage_js_interop.dart' as fs;
 
-class CloudFirestorePlugin {
+class FirebaseStoragePlugin {
 
   static int _handleCounter = 0;
   static final Map<int, StreamSubscription<dynamic>> _subscriptions = {};
@@ -45,7 +45,7 @@ class CloudFirestorePlugin {
       const StandardMethodCodec(),
       registrar.messenger,
     );
-    final CloudFirestorePlugin instance = CloudFirestorePlugin();
+    final FirebaseStoragePlugin instance = FirebaseStoragePlugin();
     _channel.setMethodCallHandler(instance.onMethodCall);
   }
 

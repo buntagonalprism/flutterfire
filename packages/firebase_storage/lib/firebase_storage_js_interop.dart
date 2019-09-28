@@ -23,16 +23,14 @@ abstract class RootStorageBucketRef {
   external Reference child(String path);
 }
 
-abstract class FileOrBlob implements html.File, Uint8List {
-
-}
 
 @JS() 
 @anonymous 
 abstract class Reference {
   external String get name;
   external String get fullPath;
-  external UploadTask put(FileOrBlob file);
+  // Must either be dart:html.File or dart:typed_data.Uint8List
+  external UploadTask put(dynamic file);
   external Promise getDownloadURL();
 }
 

@@ -129,7 +129,7 @@ class FirebaseStoragePlugin {
       'error': errorCode,
       'bytesTransferred': snapshot.bytesTransferred,
       'totalByteCount': snapshot.totalBytes,
-      'storageMetadata': _mapMetadata(snapshot.metadata),
+      'storageMetadata': snapshot.metadata != null ? _mapMetadata(snapshot.metadata) : null,
     };
   }
 

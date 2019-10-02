@@ -20,7 +20,7 @@ class FirebaseStoragePlugin {
 
   static const List<String> _storageEventTypeNames = <String>[
     'resume',
-    'progress',
+    'running',
     'pause',
     'success',
     'failure',

@@ -147,7 +147,7 @@ class _StorageFileReferenceUploadTask extends StorageUploadTask {
   @override
   Future<dynamic> _platformStart() {
     return FirebaseStorage.channel.invokeMethod<dynamic>(
-      'StorageReference#putFileReference',
+      'StorageReference#putFile',
       <String, dynamic>{
         'app': _firebaseStorage.app?.name,
         'bucket': _firebaseStorage.storageBucket,

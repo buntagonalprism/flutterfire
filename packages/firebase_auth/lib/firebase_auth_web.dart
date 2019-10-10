@@ -116,14 +116,20 @@ class FirebaseAuthPlugin {
     return auth.sendPasswordResetEmail(email);
   }
 
-  Future<dynamic> _currentUser(String appName) {
+  Future<dynamic> _currentUser(String appName) async {
     final web_fb.Auth auth = _getAuthForApp(appName);
-    final web_fb.User currentUser = auth.currentUser;
-    if (currentUser != null) {
-      return Future<dynamic>.value(_mapUserToFirebaseUser(currentUser));
-    } else {
-      return Future<void>.value();
-    }
+    final Completer<dynamic> completer = Completer<dynamic>();
+    StreamSubscription<web_fb.User> sub;
+    sub = auth.onAuthStateChanged.listen((web_fb.User user) {
+      sub.cancel();
+      if (user != null) {
+        final dynamic result = _mapUserToFirebaseUser(user);
+        completer.complete(result);
+      } else {
+        completer.complete(null);
+      }
+    });
+    return completer.future;
   }
 
   Future<dynamic> _createUserWithEmailAndPassword(String appName, String email, String password) async {

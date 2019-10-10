@@ -20,7 +20,7 @@ class FirebaseStoragePlugin {
 
   static const List<String> _storageEventTypeNames = <String>[
     'resume',
-    'progress',
+    'running',
     'pause',
     'success',
     'failure',
@@ -53,7 +53,7 @@ class FirebaseStoragePlugin {
   Future<dynamic> onMethodCall(MethodCall call) {
     try {
       switch (call.method) {
-        case "StorageReference#putFileReference":
+        case "StorageReference#putFile":
           return _uploadFile(call);
         case "StorageReference#putData":
           return _uploadData(call);
@@ -129,7 +129,7 @@ class FirebaseStoragePlugin {
       'error': errorCode,
       'bytesTransferred': snapshot.bytesTransferred,
       'totalByteCount': snapshot.totalBytes,
-      'storageMetadata': _mapMetadata(snapshot.metadata),
+      'storageMetadata': snapshot.metadata != null ? _mapMetadata(snapshot.metadata) : null,
     };
   }
 

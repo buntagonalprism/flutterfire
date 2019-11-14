@@ -134,9 +134,12 @@ class FirebaseAuthPlugin {
 
   Future<dynamic> _createUserWithEmailAndPassword(String appName, String email, String password) async {
     final web_fb.Auth auth = _getAuthForApp(appName);
-    final web_fb.UserCredential userCredential = await auth.createUserAndRetrieveDataWithEmailAndPassword(email, password);
+    final web_fb.UserCredential userCredential = await auth.createUserWithEmailAndPassword(email, password);
     if (userCredential != null) {
-      return _mapUserToFirebaseUser(userCredential.user);
+      final Map<dynamic, dynamic> userData = _mapUserToFirebaseUser(userCredential.user);
+      return <dynamic, dynamic> {
+        "user": userData,
+      };
     } else {
       return null;
     }

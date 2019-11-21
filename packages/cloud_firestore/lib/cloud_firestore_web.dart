@@ -125,15 +125,15 @@ class CloudFirestorePlugin {
     }
 
     // TODO: support start/end conditions using document snapshots
-    if (parameters['startAfter']) {
+    if (parameters['startAfter'] != null) {
       query = query.startAfter(fieldValues: parameters['startAfter']);
-    } else if (parameters['startAt']) {
+    } else if (parameters['startAt'] != null) {
       query = query.startAt(fieldValues: parameters['startAt']);
     }
 
-    if (parameters['endBefore']) {
+    if (parameters['endBefore'] != null) {
       query = query.endBefore(fieldValues: parameters['endAt']);
-    } else if (parameters['endAt']) {
+    } else if (parameters['endAt'] != null) {
       query = query.endAt(fieldValues: parameters['endAt']);
     }
     return query;

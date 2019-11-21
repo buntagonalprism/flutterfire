@@ -123,6 +123,19 @@ class CloudFirestorePlugin {
       final bool isDescending = orderField[1];
       query = query.orderBy(orderField[0], isDescending ? 'desc' : 'asc');
     }
+
+    // TODO: support start/end conditions using document snapshots
+    if (parameters['startAfter']) {
+      query = query.startAfter(fieldValues: parameters['startAfter']);
+    } else if (parameters['startAt']) {
+      query = query.startAt(fieldValues: parameters['startAt']);
+    }
+
+    if (parameters['endBefore']) {
+      query = query.endBefore(fieldValues: parameters['endAt']);
+    } else if (parameters['endAt']) {
+      query = query.endAt(fieldValues: parameters['endAt']);
+    }
     return query;
   }
 

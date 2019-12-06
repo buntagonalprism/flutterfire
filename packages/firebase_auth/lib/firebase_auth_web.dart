@@ -101,6 +101,8 @@ class FirebaseAuthPlugin {
     web_fb.AuthCredential credential;
     if (provider == web_fb.EmailAuthProvider.PROVIDER_ID) {
       credential = web_fb.EmailAuthProvider.credential(data['email'], data['password']);
+    } else if (provider == web_fb.GoogleAuthProvider.PROVIDER_ID) {
+      credential = web_fb.GoogleAuthProvider.credential(data['idToken'], data['accessToken']);
     } else {
       throw "Unsupported authentication credential provider in web implementation of firebase_auth: $provider";
     }

@@ -23,25 +23,34 @@ class FirebaseAuthPlugin {
     _channel.setMethodCallHandler(instance.onMethodCall);
   }
 
-  Future<dynamic> onMethodCall(MethodCall call) {
+  Future<dynamic> onMethodCall(MethodCall call) async {
+    dynamic result;
     try {
       switch (call.method) {
         case "startListeningAuthState":
-          return _addAuthListener(call.arguments["app"]);
+          result = await _addAuthListener(call.arguments["app"]);
+          break;
         case "stopListeningAuthState":
-          return _removeAuthListener(call.arguments["id"]);
+          await _removeAuthListener(call.arguments["id"]);
+          break;
         case "createUserWithEmailAndPassword":
-          return _createUserWithEmailAndPassword(call.arguments["app"], call.arguments["email"], call.arguments["password"]);
+          result = await _createUserWithEmailAndPassword(call.arguments["app"], call.arguments["email"], call.arguments["password"]);
+          break;
         case "sendPasswordResetEmail":
-          return _sendPasswordResetEmail(call.arguments["app"], call.arguments["email"]);
+          result = await _sendPasswordResetEmail(call.arguments["app"], call.arguments["email"]);
+          break;
         case "signInWithCredential":
-          return _signInWithCredential(call.arguments["app"], call.arguments["provider"], call.arguments["data"]);
+          result = await _signInWithCredential(call.arguments["app"], call.arguments["provider"], call.arguments["data"]);
+          break;
         case "currentUser":
-          return _currentUser(call.arguments["app"]);
+          result = await _currentUser(call.arguments["app"]);
+          break;
         case "signOut":
-          return _signOut(call.arguments["app"]);
+          result = await _signOut(call.arguments["app"]);
+          break;
         case "getIdToken":
-          return _getIdToken(call.arguments["app"], call.arguments["refresh"]);
+          result = await _getIdToken(call.arguments["app"], call.arguments["refresh"]);
+          break;
         default:
           throw PlatformException(
               code: 'Unimplemented',
@@ -50,13 +59,20 @@ class FirebaseAuthPlugin {
                   "the method '${call.method}'");
           break;
       }
-    } catch (e, stackTrace) {
-      throw PlatformException(
-          code: "PlatformError",
-          message: e.toString(),
-          details: stackTrace.toString());
+    } catch (error) {
+      throw _mapError(error);
     }
+    return result;
   }
+
+  PlatformException _mapError(dynamic e) {
+    return PlatformException(
+      code: e.code,
+      message: e.message,
+      details: null,
+    );
+  }
+
 
   Future<int> _addAuthListener(String appName) {
     final web_fb.Auth auth = _getAuthForApp(appName);

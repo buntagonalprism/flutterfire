@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:html' as html;
+import 'dart:js' as js;
 import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
@@ -105,15 +106,15 @@ class FirebaseStoragePlugin {
   }
 
   void _runUploadTask(fs.UploadTask uploadTask, int uploadHandle) {
-    uploadTask.on('state_changed', (fs.UploadSnapshot snapshot) {
+    uploadTask.on('state_changed', js.allowInterop((fs.UploadSnapshot snapshot) {
       _emitUploadEvent(uploadHandle, snapshot);
-    }, (dynamic error) {
+    }), js.allowInterop((dynamic error) {
       final String errorMessage = error;
       final int errorCode = _storageErrors[errorMessage];
       _emitUploadEvent(uploadHandle, uploadTask.snapshot, errorCode);
-    }, () {
+    }), js.allowInterop(() {
       _emitUploadEvent(uploadHandle, uploadTask.snapshot);
-    });
+    }));
   }
 
   void _emitUploadEvent(int handle, fs.UploadSnapshot snapshot, [int errorCode]){
@@ -159,11 +160,11 @@ class FirebaseStoragePlugin {
     final String targetPath = call.arguments['path'];
     final fs.Storage storage = _getStorageForApp(appName);
     final fs.Reference ref = storage.ref().child(targetPath);
-    ref.getDownloadURL().then((String downloadUrl) {
+    ref.getDownloadURL().then(js.allowInterop((String downloadUrl) {
       completer.complete(downloadUrl);
-    }, (dynamic error) {
+    }), js.allowInterop((dynamic error) {
       completer.completeError(error.toString());
-    });
+    }));
     return completer.future;
   }
 }

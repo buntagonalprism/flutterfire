@@ -3,6 +3,8 @@ import 'dart:html' as html;
 import 'dart:js' as js;
 import 'dart:typed_data';
 
+import 'package:http/http.dart' as http;
+
 import 'package:flutter/services.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:local_file_reference/local_file_reference_web.dart';
@@ -76,7 +78,7 @@ class FirebaseStoragePlugin {
     }
   }
 
-  Future<int> _uploadFile(MethodCall call) {
+  Future<int> _uploadFile(MethodCall call) async {
     final String appName = call.arguments['app'];
     final String sourcePath = call.arguments['filename'];
     final String targetPath = call.arguments['path'];
@@ -84,9 +86,16 @@ class FirebaseStoragePlugin {
     final fs.Storage storage = _getStorageForApp(appName);
 
     final int uploadHandle = _handleCounter++;
-    final html.File sourceFile = LocalFileReferencePlugin.getLocalFileByIdentifier(sourcePath);
     final fs.Reference ref = storage.ref().child(targetPath);
-    final fs.UploadTask uploadTask = ref.put(sourceFile);
+    fs.UploadTask uploadTask;
+    final html.File sourceFile = LocalFileReferencePlugin.getLocalFileByIdentifier(sourcePath);
+    if (sourceFile == null) {
+      uploadTask = ref.put(sourceFile);
+    } else {
+      // Assume object URL from PickedFile 
+      final Uint8List sourceData = (await http.get(sourcePath)).bodyBytes;
+      uploadTask = ref.put(sourceData);
+    }
     _runUploadTask(uploadTask, uploadHandle);
     return Future<int>.value(uploadHandle);
   }

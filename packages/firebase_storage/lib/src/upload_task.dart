@@ -162,27 +162,6 @@ class _StorageFileReferenceUploadTask extends StorageUploadTask {
   final LocalFileReference _reference;
 }
 
-class _StoragePickedFileUploadTask extends StorageUploadTask {
-  _StoragePickedFileUploadTask._(this._reference, FirebaseStorage storage, StorageReference ref, StorageMetadata metadata): super._(storage, ref, metadata);
-
-  @override
-  Future<dynamic> _platformStart() {
-    return FirebaseStorage.channel.invokeMethod<dynamic>(
-      'StorageReference#putFile',
-      <String, dynamic>{
-        'app': _firebaseStorage.app?.name,
-        'bucket': _firebaseStorage.storageBucket,
-        'filename': _reference.path,
-        'path': _ref.path,
-        'metadata':
-            _metadata == null ? null : _buildMetadataUploadMap(_metadata),
-      },
-    );
-  }
-
-  final PickedFile _reference;
-}
-
 class _StorageDataUploadTask extends StorageUploadTask {
   _StorageDataUploadTask._(this._bytes, FirebaseStorage firebaseStorage,
       StorageReference ref, StorageMetadata metadata)

@@ -72,12 +72,6 @@ class StorageReference {
     return task;
   }
 
-  StorageUploadTask putPickedFile(PickedFile reference, [StorageMetadata metadata]) {
-    final StorageUploadTask task = _StoragePickedFileUploadTask._(reference, _firebaseStorage, this, metadata);
-    task._start();
-    return task;
-  }
-
   /// Asynchronously uploads byte data to the currently specified
   /// [StorageReference], with an optional [metadata].
   StorageUploadTask putData(Uint8List data, [StorageMetadata metadata]) {

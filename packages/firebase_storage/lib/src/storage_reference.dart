@@ -66,8 +66,9 @@ class StorageReference {
   //   return task;
   // }
 
-  StorageUploadTask putFileReference(LocalFileReference reference, [StorageMetadata metadata]) {
-    final StorageUploadTask task = _StorageFileReferenceUploadTask._(reference, _firebaseStorage, this, metadata);
+  /// [pathToFile] should either be a dart:io File path, or an ObjectURL on the web
+  StorageUploadTask putFileReference(String pathToFile, [StorageMetadata metadata]) {
+    final StorageUploadTask task = _StorageFileReferenceUploadTask._(pathToFile, _firebaseStorage, this, metadata);
     task._start();
     return task;
   }

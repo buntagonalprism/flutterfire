@@ -142,7 +142,7 @@ abstract class StorageUploadTask {
 // }
 
 class _StorageFileReferenceUploadTask extends StorageUploadTask {
-  _StorageFileReferenceUploadTask._(this._reference, FirebaseStorage storage, StorageReference ref, StorageMetadata metadata): super._(storage, ref, metadata);
+  _StorageFileReferenceUploadTask._(this._filePath, FirebaseStorage storage, StorageReference ref, StorageMetadata metadata): super._(storage, ref, metadata);
 
   @override
   Future<dynamic> _platformStart() {
@@ -151,7 +151,7 @@ class _StorageFileReferenceUploadTask extends StorageUploadTask {
       <String, dynamic>{
         'app': _firebaseStorage.app?.name,
         'bucket': _firebaseStorage.storageBucket,
-        'filename': _reference.path,
+        'filename': _filePath,
         'path': _ref.path,
         'metadata':
             _metadata == null ? null : _buildMetadataUploadMap(_metadata),
@@ -159,7 +159,7 @@ class _StorageFileReferenceUploadTask extends StorageUploadTask {
     );
   }
 
-  final LocalFileReference _reference;
+  final String _filePath;
 }
 
 class _StorageDataUploadTask extends StorageUploadTask {

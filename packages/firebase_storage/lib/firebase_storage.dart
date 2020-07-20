@@ -10,7 +10,6 @@ import 'dart:typed_data';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
-import 'package:local_file_reference/local_file_reference.dart';
 
 part 'src/error.dart';
 part 'src/event.dart';

@@ -92,8 +92,8 @@ class FirebaseStoragePlugin {
     if (sourceFile == null) {
       uploadTask = ref.put(sourceFile);
     } else {
-      // Assume object URL from PickedFile 
-      final Uint8List sourceData = (await http.get(sourcePath)).bodyBytes;
+      // Assume path is object URL  
+      final Uint8List sourceData = await http.readBytes(sourcePath);
       uploadTask = ref.put(sourceData);
     }
     _runUploadTask(uploadTask, uploadHandle);
